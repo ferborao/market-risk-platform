@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.env
+*.ddb
+data/
+.dbt/
+logs/
+airflow/logs/
+*.egg-info/
+.venv/
