@@ -8,3 +8,4 @@ logs/
 airflow/logs/
 *.egg-info/
 .venv/
+.vscode/

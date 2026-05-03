@@ -1,23 +1,15 @@
 import os
 import pandas as pd
 import yfinance as yf
+from ingestion.config import TICKERS, BRONZE_PATH
 
-TICKERS = [    
-    "BBVA.MC", "SAN.MC", "CABK.MC",  
-    "JPM", "GS",                        
-    "AAPL", "MSFT",                     
-    "REP.MC", "XOM",                   
-    "SPY",                              
-]
-
-DATA_PATH = "data/bronze/"
 
 def get_last_date(ticker: str) -> pd.Timestamp | None:
     """
     Returns the most recent date recorded for a ticker.
     Returns None if no file exists yet (first download).
     """
-    file_path = os.path.join(DATA_PATH, f"{ticker}.parquet")
+    file_path = os.path.join(BRONZE_PATH, f"{ticker}.parquet")
 
     if not os.path.exists(file_path):
         return None
@@ -40,7 +32,7 @@ def download_ticker(ticker: str) -> None:
     - First run: downloads 5 years of historical data
     - Subsequent runs: downloads only from the last recorded date onwards
     """
-    file_path = os.path.join(DATA_PATH, f"{ticker}.parquet")
+    file_path = os.path.join(BRONZE_PATH, f"{ticker}.parquet")
     last_date = get_last_date(ticker)
     today = pd.Timestamp.today().normalize()
 
@@ -106,7 +98,7 @@ def download_ticker(ticker: str) -> None:
 
 def run() -> None:
     """Runs incremental ingestion for all tickers."""
-    os.makedirs(DATA_PATH, exist_ok=True)
+    os.makedirs(BRONZE_PATH, exist_ok=True)
     for ticker in TICKERS:
         download_ticker(ticker)
 

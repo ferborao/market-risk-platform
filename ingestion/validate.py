@@ -1,15 +1,6 @@
 import os
 import pandas as pd
-
-DATA_PATH = "data/bronze"
-
-TICKERS = [
-    "BBVA.MC", "SAN.MC", "CABK.MC",
-    "JPM", "GS",
-    "AAPL", "MSFT",
-    "REP.MC", "XOM",
-    "SPY",
-]
+from ingestion.config import TICKERS, BRONZE_PATH
 
 def validate_ticker(ticker: str) -> None:
     """
@@ -21,7 +12,7 @@ def validate_ticker(ticker: str) -> None:
     Returns:
         bool: True if the ticker is valid, False otherwise.
     """
-    file_path = os.path.join(DATA_PATH, f"{ticker}.parquet")
+    file_path = os.path.join(BRONZE_PATH, f"{ticker}.parquet")
 
     df = pd.read_parquet(file_path)
 
