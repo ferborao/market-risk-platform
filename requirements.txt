@@ -3,3 +3,5 @@ pydantic
 pandas
 pyarrow
 duckdb
+dbt-core
+dbt-duckdb
