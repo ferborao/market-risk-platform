@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: mart_risk_metrics
+    columns:
+      - name: ticker
+        tests:
+          - not_null
+          - unique
+      - name: volatility
+        tests:
+          - not_null
+      - name: risk_level
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['High', 'Medium', 'Low']
+
+  - name: mart_correlations
+    columns:
+      - name: ticker_a
+        tests:
+          - not_null
+      - name: ticker_b
+        tests:
+          - not_null
+      - name: correlation
+        tests:
+          - not_null
