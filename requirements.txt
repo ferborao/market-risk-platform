@@ -5,3 +5,4 @@ pyarrow
 duckdb
 dbt-core
 dbt-duckdb
+apache-airflow
