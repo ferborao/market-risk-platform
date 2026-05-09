@@ -8,4 +8,10 @@ logs/
 airflow/logs/
 *.egg-info/
 .venv/
-.vscode/
+.vscode/orchestration/airflow.cfg
+orchestration/airflow.db
+orchestration/simple_auth_manager_passwords.json.generated
+orchestration/logs/
+market_risk_dbt/dev.duckdb
+market_risk_dbt/logs/
+market_risk_dbt/target/
