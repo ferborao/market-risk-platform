@@ -3,6 +3,6 @@ pydantic
 pandas
 pyarrow
 duckdb
-dbt-core
-dbt-duckdb
-apache-airflow
+dbt-core=1.8.0
+dbt-duckdb=1.8.0
+apache-airflow=2.9.3
