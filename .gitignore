@@ -1,3 +1,4 @@
+cat > .gitignore << 'EOF'
 __pycache__/
 *.pyc
 .env
@@ -5,13 +6,17 @@ __pycache__/
 data/
 .dbt/
 logs/
-airflow/logs/
 *.egg-info/
 .venv/
-.vscode/orchestration/airflow.cfg
+.vscode/
+orchestration/airflow.cfg
 orchestration/airflow.db
+orchestration/airflow-webserver.pid
+orchestration/standalone_admin_password.txt
+orchestration/webserver_config.py
 orchestration/simple_auth_manager_passwords.json.generated
 orchestration/logs/
 market_risk_dbt/dev.duckdb
 market_risk_dbt/logs/
 market_risk_dbt/target/
+EOF
