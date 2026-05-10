@@ -19,4 +19,4 @@ orchestration/logs/
 market_risk_dbt/dev.duckdb
 market_risk_dbt/logs/
 market_risk_dbt/target/
-EOF
+EOF.env
