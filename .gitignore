@@ -20,3 +20,10 @@ market_risk_dbt/dev.duckdb
 market_risk_dbt/logs/
 market_risk_dbt/target/
 EOF.env
+infrastructure/terraform.tfvars
+infrastructure/.terraform/
+infrastructure/*.tfstate
+infrastructure/*.tfstate.backup
+infrastructure/terraform.tfstate
+infrastructure/terraform.tfstate.backup
+infrastructure/.terraform/
