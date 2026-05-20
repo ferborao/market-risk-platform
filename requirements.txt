@@ -50,6 +50,7 @@ dnspython
 docutils
 duckdb
 email_validator
+flake8
 Flask
 Flask-AppBuilder
 Flask-Babel
