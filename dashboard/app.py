@@ -58,7 +58,7 @@ with col2:
         corr_pivot,
         color_continuous_scale="RdBu_r",
         zmin=-1, zmax=1,
-        text_auto=".2f"
+        text_auto=".2f" # type: ignore
     )
     fig_corr.update_layout(margin=dict(l=0, r=0, t=0, b=0))
     st.plotly_chart(fig_corr, use_container_width=True)
