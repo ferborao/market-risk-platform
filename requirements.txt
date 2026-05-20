@@ -144,6 +144,7 @@ python-dateutil
 python-multipart
 python-nvd3
 python-slugify
+pytest
 pytimeparse
 pytz
 PyYAML
