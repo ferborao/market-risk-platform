@@ -2,6 +2,7 @@ from ingestion.config import SILVER_PATH
 import pandas as pd
 import os
 
+
 def compute_correlations():
     """
     Compute the correlation matrix for the stock returns and save it as a CSV file.
@@ -11,7 +12,8 @@ def compute_correlations():
     returns_path = os.path.join(SILVER_PATH, "returns.parquet")
     returns_df = pd.read_parquet(returns_path)
 
-    pivoted_returns_df = returns_df.pivot(index='Date', columns='ticker', values='log_return')
+    pivoted_returns_df = returns_df.pivot(
+        index='Date', columns='ticker', values='log_return')
 
     # Compute the correlation matrix
     correlation_matrix = pivoted_returns_df.corr()
@@ -20,9 +22,11 @@ def compute_correlations():
     correlation_path = os.path.join(SILVER_PATH, "correlations.parquet")
     correlation_matrix.to_parquet(correlation_path)
 
+
 def run():
     compute_correlations()
-    print("Correlation matrix computed and saved.") 
+    print("Correlation matrix computed and saved.")
+
 
 if __name__ == "__main__":
     run()

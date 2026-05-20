@@ -5,6 +5,7 @@ from ingestion.config import SILVER_PATH, TICKERS
 
 RISK_FREE_RATE = 0.02 / 252  # 2% annual, converted to daily
 
+
 def calculate_metrics(ticker: str, df: pd.DataFrame) -> dict:
     """
     Calculates financial risk metrics for a given ticker.
@@ -37,6 +38,7 @@ def calculate_metrics(ticker: str, df: pd.DataFrame) -> dict:
         "max_drawdown": max_drawdown,
     }
 
+
 def run() -> None:
     """Calculates metrics for all tickers and saves to silver layer."""
     os.makedirs(SILVER_PATH, exist_ok=True)
@@ -50,7 +52,11 @@ def run() -> None:
     ]
 
     metrics = pd.DataFrame(rows)
-    metrics.to_parquet(os.path.join(SILVER_PATH, "metrics.parquet"), index=False)
+    metrics.to_parquet(
+        os.path.join(
+            SILVER_PATH,
+            "metrics.parquet"),
+        index=False)
     print(f"Metrics saved: {len(metrics)} rows.")
     print(metrics.to_string(index=False))
 

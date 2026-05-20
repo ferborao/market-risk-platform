@@ -2,7 +2,6 @@ import streamlit as st
 import duckdb
 import pandas as pd
 import plotly.express as px
-import plotly.graph_objects as go
 
 DATA_PATH = "market_risk_dbt/dev.duckdb"
 RETURNS_PATH = "data/silver/returns.parquet"
@@ -38,7 +37,10 @@ with col1:
         filtered_metrics.sort_values("var_95"),
         x="ticker", y="var_95",
         color="risk_level",
-        color_discrete_map={"High": "#ff4444", "Medium": "#ffaa00", "Low": "#44bb44"}
+        color_discrete_map={
+            "High": "#ff4444",
+            "Medium": "#ffaa00",
+            "Low": "#44bb44"}
     )
     st.plotly_chart(fig_var, use_container_width=True)
 
@@ -48,28 +50,35 @@ with col2:
         filtered_metrics.sort_values("volatility", ascending=False),
         x="ticker", y="volatility",
         color="risk_level",
-        color_discrete_map={"High": "#ff4444", "Medium": "#ffaa00", "Low": "#44bb44"}
+        color_discrete_map={
+            "High": "#ff4444",
+            "Medium": "#ffaa00",
+            "Low": "#44bb44"}
     )
     st.plotly_chart(fig_vol, use_container_width=True)
 
-    st.subheader("Correlation Matrix")
-    corr_pivot = correlations.pivot(index="ticker_a", columns="ticker_b", values="correlation")
-    fig_corr = px.imshow(
-        corr_pivot,
-        color_continuous_scale="RdBu_r",
-        zmin=-1, zmax=1,
-        text_auto=".2f" # type: ignore
-    )
-    fig_corr.update_layout(margin=dict(l=0, r=0, t=0, b=0))
-    st.plotly_chart(fig_corr, use_container_width=True)
+st.subheader("Correlation Matrix")
+corr_pivot = correlations.pivot(
+    index="ticker_a",
+    columns="ticker_b",
+    values="correlation")
+fig_corr = px.imshow(
+    corr_pivot,
+    color_continuous_scale="RdBu_r",
+    zmin=-1, zmax=1,
+    text_auto=".2f"  # type: ignore
+)
+fig_corr.update_layout(margin=dict(l=0, r=0, t=0, b=0))
+st.plotly_chart(fig_corr, use_container_width=True)
 
-    st.subheader("Cumulative Returns")
-    filtered_returns["Date"] = pd.to_datetime(filtered_returns["Date"])
-    filtered_returns = filtered_returns.sort_values("Date")
-    filtered_returns["cumulative_return"] = filtered_returns.groupby("ticker")["log_return"].cumsum()
-    fig_returns = px.line(
-        filtered_returns,
-        x="Date", y="cumulative_return",
-        color="ticker"
-    )
-    st.plotly_chart(fig_returns, use_container_width=True)
+st.subheader("Cumulative Returns")
+filtered_returns["Date"] = pd.to_datetime(filtered_returns["Date"])
+filtered_returns = filtered_returns.sort_values("Date")
+filtered_returns["cumulative_return"] = filtered_returns.groupby("ticker")[
+    "log_return"].cumsum()
+fig_returns = px.line(
+    filtered_returns,
+    x="Date", y="cumulative_return",
+    color="ticker"
+)
+st.plotly_chart(fig_returns, use_container_width=True)

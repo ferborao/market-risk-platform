@@ -18,6 +18,7 @@ apispec
 argcomplete
 asgiref
 attrs
+autopep8
 Babel
 beautifulsoup4
 blinker

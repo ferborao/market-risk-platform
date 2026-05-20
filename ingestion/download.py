@@ -15,7 +15,7 @@ def get_last_date(ticker: str) -> pd.Timestamp | None:
         return None
 
     df = pd.read_parquet(file_path)
-    
+
     if df.empty:
         return None
 
@@ -39,7 +39,8 @@ def download_ticker(ticker: str) -> None:
     # If the file was already checked today, skip — avoids redundant API calls
     # on weekends/holidays where there's no new trading data.
     if last_date is not None:
-        mtime = pd.Timestamp.fromtimestamp(os.path.getmtime(file_path)).normalize()
+        mtime = pd.Timestamp.fromtimestamp(
+            os.path.getmtime(file_path)).normalize()
         if mtime >= today:
             print(f"{ticker}: already up to date.")
             return
@@ -59,10 +60,17 @@ def download_ticker(ticker: str) -> None:
         print(f"{ticker}: already up to date.")
         return
 
-    print(f"{ticker}: downloading from {start_date.date()} to {end_date.date()}...")
+    print(
+        f"{ticker}: downloading from {
+            start_date.date()} to {
+            end_date.date()}...")
 
     # auto_adjust=True returns prices adjusted for dividends and stock splits
-    data = yf.download(ticker, start=start_date, end=end_date, auto_adjust=True)
+    data = yf.download(
+        ticker,
+        start=start_date,
+        end=end_date,
+        auto_adjust=True)
     assert data is not None
 
     if data.empty:
@@ -72,8 +80,12 @@ def download_ticker(ticker: str) -> None:
     # Reset index to convert date from index to a regular column before saving
     data.reset_index(inplace=True)
 
-    # Flatten MultiIndex columns returned by yfinance (e.g. ('Close', 'BBVA.MC') -> 'Close')
-    data.columns = [col[0] if isinstance(col, tuple) else col for col in data.columns]
+    # Flatten MultiIndex columns returned by yfinance (e.g. ('Close',
+    # 'BBVA.MC') -> 'Close')
+    data.columns = [
+        col[0] if isinstance(
+            col,
+            tuple) else col for col in data.columns]
 
     # yfinance may return 'Datetime' instead of 'Date' depending on version
     if "Datetime" in data.columns:
@@ -101,6 +113,7 @@ def run() -> None:
     os.makedirs(BRONZE_PATH, exist_ok=True)
     for ticker in TICKERS:
         download_ticker(ticker)
+
 
 if __name__ == "__main__":
     run()
