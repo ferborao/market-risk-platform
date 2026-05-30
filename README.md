@@ -1,6 +1,6 @@
 # Market Risk Data Platform
 
-End-to-end market risk data platform processing real equity portfolio data with regulatory-grade risk metrics. Built as part of a Data Engineering portfolio targeting fintech and digital banking roles.
+End-to-end market risk data platform processing a real equity portfolio with regulatory-grade risk metrics. Built as part of a Data Engineering portfolio targeting fintech and digital banking roles.
 
 ## Overview
 
@@ -10,6 +10,7 @@ Batch pipeline that ingests daily market data for a 10-ticker equity portfolio, 
 yfinance API → Bronze (Parquet) → Silver (Parquet) → Gold (DuckDB) → Streamlit Dashboard
 
 Medallion architecture with three layers:
+
 - **Bronze**: Raw daily OHLCV data, incremental ingestion, append-only
 - **Silver**: Log-returns, risk metrics and correlation matrix
 - **Gold**: dbt models exposed via DuckDB for analytical consumption
@@ -93,6 +94,28 @@ airflow dags trigger market_risk_pipeline
 | Volatility | Annualized historical volatility (daily std × √252) |
 | Sharpe Ratio | Excess return over 2% risk-free rate per unit of volatility |
 | Max Drawdown | Largest peak-to-trough decline in cumulative returns |
+
+## Snowflake Migration Path
+
+This project uses DuckDB locally as a Snowflake equivalent. The SQL is identical — migrating to Snowflake requires only changing the dbt connection in `profiles.yml`:
+
+```yaml
+market_risk_dbt:
+  outputs:
+    prod:
+      type: snowflake
+      account: <your_account>
+      user: <your_user>
+      password: <your_password>
+      role: TRANSFORMER
+      database: MARKET_RISK
+      warehouse: COMPUTE_WH
+      schema: gold
+      threads: 4
+  target: dev
+```
+
+No SQL changes required. Same dbt models, same tests, same DAG.
 
 ## Dashboard
 
